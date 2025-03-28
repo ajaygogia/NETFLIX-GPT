@@ -24,7 +24,7 @@ const Login = () => {
     if (signIn) {
       signInWithEmailAndPassword(auth, email.current.value, password.current.value)
         .then((userCredential) => {
-          const user = userCredential.user;
+          navigate('/browse')
         })
         .catch((error) => {
           const errorCode = error.code;
@@ -60,7 +60,7 @@ const Login = () => {
       </div>
       <form className='absolute mx-auto left-0 right-0 bg-black w-3/12 flex-col text-center h-auto rounded-xl mt-44 bg-opacity-80'>
         <h1 className='text-white text-3xl align text-left ml-8 py-2'>{signIn ? 'Sign In' : 'Sign Up'}</h1>
-        <input ref={name} type='text' className='m-2 p-3 w-9/12 bg-black border border-white text-white rounded-sm' placeholder='Enter Full Name'></input>
+        {!signIn && <input ref={name} type='text' className='m-2 p-3 w-9/12 bg-black border border-white text-white rounded-sm' placeholder='Enter Full Name'></input>}
         <input ref={email} type='text' className='m-2 p-3 w-9/12 bg-black border border-white text-white rounded-sm' placeholder='Email or mobile number'></input>
         <input ref={password} type='password' className='m-2 p-3 w-9/12 bg-black border border-white text-white rounded-sm' placeholder='Password'></input>
         <p className='text-red-600 font-bold my-4 mx-auto w-9/12 text-left'>{errorMessage}</p>
