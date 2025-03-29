@@ -4,10 +4,13 @@ import { validators } from '../utils/validators'
 import { auth } from '../utils/firebase'
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { BACKGROUND_IMG } from '../utils/constants';
+import { useDispatch } from 'react-redux';
+import { addUser } from '../slices/userSlice';
 
 const Login = () => {
   let [signIn, setSignIn] = useState(true);
   let [errorMessage, setErrorMessage] = useState(null)
+  const dispatch = useDispatch()
   const name = useRef(null)
   const email = useRef(null);
   const password = useRef(null)
@@ -27,6 +30,7 @@ const Login = () => {
         .catch((error) => {
           const errorCode = error.code;
           const errorMessage = error.message;
+          console.log(errorCode + ' - ' + errorMessage)
         });
     } else {
       createUserWithEmailAndPassword(auth, email.current.value, password.current.value)
@@ -35,10 +39,15 @@ const Login = () => {
           updateProfile(user, {
             displayName: name.current.value,
           }).then(() => {
+            const { uid, email, displayName } = auth.currentUser;
+            dispatch(addUser({ uid, email, displayName }))
           }).catch((error) => {
           });
         })
         .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          console.log(errorCode + ' - ' + errorMessage)
         });
     }
   }
