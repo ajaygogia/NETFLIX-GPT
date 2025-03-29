@@ -1,18 +1,31 @@
-import React from 'react'
-import { signOut } from "firebase/auth";
+import React, { useEffect } from 'react'
+import { onAuthStateChanged, signOut } from "firebase/auth";
 import { useNavigate } from 'react-router-dom';
 import { auth } from '../utils/firebase';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { addUser, removeUser } from '../slices/userSlice'
+
 
 
 const Header = () => {
   const user = useSelector(state => state);
+  const dispatch = useDispatch()
   const navigate = useNavigate()
+  useEffect(()=>{
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        const {uid, email, displayName} = user;
+        dispatch(addUser({ uid, email, displayName }))
+        navigate('/browse')
+      } else {
+        dispatch(removeUser())
+        navigate('/')
+      }
+    });
+  },[])
   function signOutNetflix() {
     signOut(auth).then(() => {
-      navigate('/')
     }).catch((error) => {
-      navigate('/error')
     });
   }
   return (

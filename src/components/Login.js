@@ -3,11 +3,9 @@ import Header from './Header'
 import { validators } from '../utils/validators'
 import { auth } from '../utils/firebase'
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile } from "firebase/auth";
-import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
   let [signIn, setSignIn] = useState(true);
-  const navigate = useNavigate()
   let [errorMessage, setErrorMessage] = useState(null)
   const name = useRef(null)
   const email = useRef(null);
@@ -24,7 +22,6 @@ const Login = () => {
     if (signIn) {
       signInWithEmailAndPassword(auth, email.current.value, password.current.value)
         .then((userCredential) => {
-          navigate('/browse')
         })
         .catch((error) => {
           const errorCode = error.code;
@@ -38,11 +35,8 @@ const Login = () => {
           updateProfile(user, {
             displayName: name.current.value,
           }).then(() => {
-            navigate('/browse')
           }).catch((error) => {
-            console.log(error)
           });
-          navigate('/')
         })
         .catch((error) => {
           const errorCode = error.code;
