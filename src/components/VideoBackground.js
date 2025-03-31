@@ -13,7 +13,6 @@ const VideoBackground = ({ id }) => {
         title="Movie Trailer"
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
         referrerPolicy="strict-origin-when-cross-origin"
-        autop
       ></iframe>
     </div>
   )
