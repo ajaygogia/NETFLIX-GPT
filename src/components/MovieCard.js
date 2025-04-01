@@ -1,9 +1,21 @@
 import React from 'react'
-import { POSTER_URL } from '../utils/constants'
+import { API_OPTIONS, POSTER_URL } from '../utils/constants'
+import { useDispatch } from 'react-redux';
+import { setTrailerVideo } from '../slices/moviesSlice';
 
-const MovieCard = ({ posterPath }) => {
+
+const MovieCard = ({ posterPath, id }) => {
+    const dispatch = useDispatch()
+    const handleClick = async () => {
+        const data = await fetch('https://api.themoviedb.org/3/movie/' + id + '/videos?language=en-US', API_OPTIONS)
+        const json = await data.json()
+        let index = json.results.find(video => video.type === 'Trailer')
+        let video_key = index?.key ?? json.results[1]?.key
+        dispatch(setTrailerVideo(video_key))
+    };
+
     return (
-        <img className='w-52' src={POSTER_URL + posterPath} alt='Movie Card'></img>
+        <img className='w-52' src={POSTER_URL + posterPath} alt='Movie Card' onClick={handleClick}></img>
     )
 }
 
