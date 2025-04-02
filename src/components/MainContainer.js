@@ -1,16 +1,20 @@
 import React from 'react'
 import VideoBackground from './VideoBackground'
 import VideoTitle from './VideoTitle'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { setMovieTitle } from '../slices/moviesSlice'
 
 const MainContainer = () => {
+    const dispatch = useDispatch()
     const movies = useSelector(Store => Store.movies.nowPlayingMovies)
+    const movie = useSelector(store => store.movies.trailerOverview)
     if (movies == null) return
-    const { original_title, overview, id } = movies[1]
+    const { id } = movies[0]
+    dispatch(setMovieTitle({title: movie.title, overview: movie.overview}))
     return (
         <div>
             <VideoBackground id={id} />
-            <VideoTitle title={original_title} overview={overview} />
+            <VideoTitle title={movie.title} overview={movie.overview} />
         </div>
     )
 }
