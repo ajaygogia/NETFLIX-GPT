@@ -17,7 +17,7 @@ const MovieCard = ({ posterPath, id, title, overview }) => {
     };
 
     return (
-        <img className='w-52' src={POSTER_URL + posterPath} alt='Movie Card' onClick={handleClick}></img>
+        <img className='w-52 cursor-pointer' src={POSTER_URL + posterPath} alt='Movie Card' onClick={handleClick}></img>
     )
 }
 
