@@ -13,6 +13,7 @@ const MovieCard = ({ posterPath, id, title, overview }) => {
         let video_key = index?.key ?? json.results[1]?.key
         dispatch(setTrailerVideo(video_key))
         dispatch(setMovieTitle({ title: title, overview: overview }))
+        window.scrollTo(0, 0)
     };
 
     return (
