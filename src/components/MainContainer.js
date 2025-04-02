@@ -9,12 +9,14 @@ const MainContainer = () => {
     const movies = useSelector(Store => Store.movies.nowPlayingMovies)
     const movie = useSelector(store => store.movies.trailerOverview)
     if (movies == null) return
-    const { id } = movies[0]
-    dispatch(setMovieTitle({title: movie.title, overview: movie.overview}))
+    const { original_title, overview, id } = movies[0]
+    if (!movie?.title) {
+        dispatch(setMovieTitle({ title: original_title, overview: overview }))
+    }
     return (
         <div>
             <VideoBackground id={id} />
-            <VideoTitle title={movie.title} overview={movie.overview} />
+            <VideoTitle />
         </div>
     )
 }
